@@ -6,6 +6,7 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 #include <thread>
+#include <chrono>
 #include <iostream>
 #include <vector>
 #include "../includes/constants.h"
@@ -15,6 +16,9 @@ using namespace std;
 
 //TODO linker errors?  Did you include the pthread library?   And set the proper dialect?
 //TODO declare globals
+
+int a = 0;
+string z;
 
 /***
  * 
@@ -29,14 +33,22 @@ void fun(string info){
 int main() {
 	
 	//TODO start as many threads as you have cores (see std::thread::hardware_concurrency())
+	unsigned num_cpus = std::thread::hardware_concurrency();
+
+	thread t1(fun, LOG_FILE);
+	thread t2(fun, LOG_CONSOLE);
+
+
 	//TODO save these threads in a vector
 
 	//TODO let threads run a bit (5 seconds)
-	this_thread::sleep_for(chrono::milliseconds(5000));
-	
+	std::this_thread::sleep_for(std::chrono::seconds(5));
 	//TODO ask them all to stop
 	
 	//TODO wait for all threads to finish
+	t1.join();
+	t2.join();
+
 	
 	return 0;
 }
